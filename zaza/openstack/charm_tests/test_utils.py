@@ -226,7 +226,7 @@ class OpenStackBaseTest(unittest.TestCase):
             model_name=self.model_name)
 
     @contextlib.contextmanager
-    def pause_resume(self, services):
+    def pause_resume(self, services, pgrep_full=False):
         """Run Pause and resume tests.
 
         Pause and then resume a unit checking that services are in the
@@ -240,7 +240,8 @@ class OpenStackBaseTest(unittest.TestCase):
             self.lead_unit,
             services,
             'running',
-            model_name=self.model_name)
+            model_name=self.model_name,
+            pgrep_full=pgrep_full)
         model.block_until_unit_wl_status(
             self.lead_unit,
             'active',
@@ -258,7 +259,8 @@ class OpenStackBaseTest(unittest.TestCase):
             self.lead_unit,
             services,
             'stopped',
-            model_name=self.model_name)
+            model_name=self.model_name,
+            pgrep_full=pgrep_full)
         yield
         model.run_action(
             self.lead_unit,
